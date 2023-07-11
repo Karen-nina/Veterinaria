@@ -115,9 +115,10 @@ public class TestVeterinaria {
 		veterinaria.agregarMedicamentoAlStockVeterinaria(medicamento3);
 		
 		Atencion atencion = new Atencion(01,duenio, mascota, 505.8);
-		veterinaria.agregarMedicamentosALaAtencion(atencion.getId(), medicamento.getId());
-		veterinaria.agregarMedicamentosALaAtencion(atencion.getId(), medicamento2.getId());
-		veterinaria.agregarMedicamentosALaAtencion(atencion.getId(), medicamento3.getId());
+		
+		veterinaria.agregarMedicamentosALaAtencion(atencion, medicamento);
+		veterinaria.agregarMedicamentosALaAtencion(atencion, medicamento2);
+		veterinaria.agregarMedicamentosALaAtencion(atencion, medicamento3);
 		
 		Integer valorEsperado = 3; 
 		Integer valorObtenido = atencion.getMedicamentos().size();
@@ -128,14 +129,48 @@ public class TestVeterinaria {
 	}
 	
 	@Test
-	public void queSePuedaCalcularElPrecioTotalDeUnaAtencion() {
+	public void queSePuedaCalcularElPrecioTotalDeUnaAtencion() throws Exception {
 		// El precio total de la atencion será la suma del precio de la atencion mas la suma del precio de todos los medicamentos
+		Veterinaria veterinaria = new Veterinaria("pupis");
+		Mascota mascota = new Mascota(03,"gato","tomas", TipoDeMascota.Domestica);
+		Duenio duenio = new Duenio(01,94502618,"karen");
+		duenio.agregarMascota(mascota);
+		veterinaria.agregarDueniosAVeterinaria(duenio); 
+		
+		Medicamento medicamento = new Medicamento(01, "antibiotico", 235.5);
+		Medicamento medicamento2 = new Medicamento(02, "analgesia", 130.0);
+		Medicamento medicamento3 = new Medicamento(03, "suero", 150.0);
+		
+		veterinaria.agregarMedicamentoAlStockVeterinaria(medicamento);
+		veterinaria.agregarMedicamentoAlStockVeterinaria(medicamento2);
+		veterinaria.agregarMedicamentoAlStockVeterinaria(medicamento3);
+		
+		Atencion atencion = new Atencion(01, duenio, mascota, 505.8);
+		
+		veterinaria.agregarMedicamentosALaAtencion(atencion, medicamento);
+		veterinaria.agregarMedicamentosALaAtencion(atencion, medicamento2);
+		veterinaria.agregarMedicamentosALaAtencion(atencion, medicamento3);
+		
+		Double valorEsperado = 1021.3;
+		Double valorObtenido = veterinaria.calcularCostoTotalDeAtencion(atencion);
+		assertEquals(valorEsperado,valorObtenido);
 		
 		
 	}
 	
 	@Test
-	public void queSePuedaObtenerDeUnDuenioUnaListaDeMascotasDomesticasOrdenadasPorApodo() {
+	public void queSePuedaObtenerDeUnDuenioUnaListaDeMascotasDomesticasOrdenadasPorApodo() throws Exception {
+		Veterinaria veterinaria = new Veterinaria("pupis");
+		Mascota mascota = new Mascota(03,"gato","tomas", TipoDeMascota.Domestica);
+		Mascota mascota2 = new Mascota(04,"perro","rocky", TipoDeMascota.Domestica);
+		Mascota mascota3 = new Mascota(05,"gato","mau", TipoDeMascota.Domestica);
+		Duenio duenio = new Duenio(01,94502618,"karen");
+		duenio.agregarMascota(mascota);
+		duenio.agregarMascota(mascota2);
+		duenio.agregarMascota(mascota3);
+		veterinaria.agregarDueniosAVeterinaria(duenio); 
+		
+		veterinaria.ordenarMascotasPorApodoDeUnDuenio(duenio);
 		
 	}
 	

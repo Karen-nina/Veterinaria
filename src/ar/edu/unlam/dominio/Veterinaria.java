@@ -1,6 +1,8 @@
 package ar.edu.unlam.dominio;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -8,16 +10,14 @@ public class Veterinaria {
 
 	private String nombre;
 	private Set<Duenio> duenios;
-	private Set<Mascota> mascotas;
-	private Set<Medicamento> stockMedicamento;
+	private List<Medicamento> stockMedicamento;
 	private Set<Atencion> atencionesRealizadas;
 	
 	public Veterinaria(String nombre) {
 		super();
 		this.nombre = nombre;
 		this.duenios = new HashSet<Duenio>();
-		this.mascotas = new TreeSet<Mascota>();
-		this.stockMedicamento = new HashSet<Medicamento>();
+		this.stockMedicamento = new ArrayList<Medicamento>();
 		this.atencionesRealizadas = new HashSet<Atencion>();
 	}
 	
@@ -38,20 +38,12 @@ public class Veterinaria {
 	public void setDuenios(Set<Duenio> duenios) {
 		this.duenios = duenios;
 	}
-
-	public Set<Mascota> getMascotas() {
-		return mascotas;
-	}
-
-	public void setMascotas(Set<Mascota> mascotas) {
-		this.mascotas = mascotas;
-	}
-
-	public Set<Medicamento> getStockMedicamento() {
+	
+	public List<Medicamento> getStockMedicamento() {
 		return stockMedicamento;
 	}
 
-	public void setStockMedicamento(Set<Medicamento> stockMedicamento) {
+	public void setStockMedicamento(List<Medicamento> stockMedicamento) {
 		this.stockMedicamento = stockMedicamento;
 	}
 
@@ -80,15 +72,27 @@ public class Veterinaria {
 		}this.atencionesRealizadas.add(atencion);
 		
 	}
-	public void agregarMedicamentosALaAtencion(Integer idAtencion, Integer idMedicamento) throws Exception {
-		Atencion atencionBuscada = buscarAtencionPorId(idAtencion);
-		Medicamento medicamentoBuscado = buscarMedicamentoPorIdEnStockDeVeterinaria(idMedicamento);
-		atencionBuscada.agregarMedicamentos(medicamentoBuscado);
-		
+	public void agregarMedicamentosALaAtencion(Atencion atencion, Medicamento medicamento) throws Exception {
+		if(verificarStockMedicamento(medicamento.getDescripcion())) {
+		atencion.agregarMedicamentos(medicamento);
+		}
 	}
-	private Medicamento buscarMedicamentoPorIdEnStockDeVeterinaria(Integer idMedicamento) throws Exception {
+	
+	
+	private boolean verificarStockMedicamento(String descripcion) {
+		for (Medicamento m : stockMedicamento) {
+			if (m.getDescripcion().equals(descripcion)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+
+	/*private Medicamento buscarMedicamentoPorDescripcionEnVeterinaria(String descripcion) throws Exception {
 		for(Medicamento m : stockMedicamento) {
-			if (m.getId().equals(idMedicamento)) {
+			if (m.getDescripcion().equals(descripcion)) {
 				return m;
 			}
 		}
@@ -104,17 +108,19 @@ public class Veterinaria {
 			}
 		}throw new AtencionInexistente("atencion con id ingresado inexistente");
 	}
+*/
 
 
-
-	public void agregarMedicamentoAlStockVeterinaria(Medicamento medicamento) throws Exception {
-		for (Medicamento m : stockMedicamento) {
-			if (m.getId().equals(medicamento.getId())) {
-				throw new MedicamentoDuplicadoException("medicamento con id ya existente");
-			}
-		}this.stockMedicamento.add(medicamento);
+	public void agregarMedicamentoAlStockVeterinaria(Medicamento medicamento){
+		this.stockMedicamento.add(medicamento);
 		
 	}
-	
+	public Double calcularCostoTotalDeAtencion(Atencion atencion) {
+		return atencion.calcularCostoTotal();	
+	}
+	public void ordenarMascotasPorApodoDeUnDuenio(Duenio duenio) {
+		duenio.ordenarMascotasPorApodo();
+		
+	}
 	
 }

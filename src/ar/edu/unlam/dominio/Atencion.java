@@ -1,8 +1,8 @@
 package ar.edu.unlam.dominio;
-
-import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Set;
+
 
 public class Atencion {
 
@@ -10,14 +10,15 @@ public class Atencion {
 	private Duenio duenio;
 	private Mascota mascota;
 	private Double precio;
-	private Set<Medicamento> medicamentos;
+	private List<Medicamento> medicamentos;
+	
 	public Atencion(Integer id, Duenio duenio, Mascota mascota, Double precio) {
 		super();
 		this.id = id;
 		this.duenio = duenio;
 		this.mascota = mascota;
 		this.precio = precio;
-		this.medicamentos = new HashSet<Medicamento>();
+		this.medicamentos = new ArrayList<Medicamento>();
 	}
 	public Integer getId() {
 		return id;
@@ -43,10 +44,11 @@ public class Atencion {
 	public void setPrecio(Double precio) {
 		this.precio = precio;
 	}
-	public Set<Medicamento> getMedicamentos() {
+	
+	public List<Medicamento> getMedicamentos() {
 		return medicamentos;
 	}
-	public void setMedicamentos(Set<Medicamento> medicamentos) {
+	public void setMedicamentos(List<Medicamento> medicamentos) {
 		this.medicamentos = medicamentos;
 	}
 	@Override
@@ -64,13 +66,16 @@ public class Atencion {
 		Atencion other = (Atencion) obj;
 		return Objects.equals(id, other.id);
 	}
-	public void agregarMedicamentos(Medicamento medicamento) throws Exception {
-		for (Medicamento m : medicamentos) {
-			if (medicamento.getId().equals(medicamento.getId())) {
-				throw new MedicamentoDuplicadoException("medicamento con id repetido");
-			}
-		} this.medicamentos.add(medicamento);
+	public void agregarMedicamentos(Medicamento medicamento){
+		this.medicamentos.add(medicamento);
 		
+	}
+	public Double calcularCostoTotal() {
+		Double aux = this.precio;
+		for (Medicamento medicamento : medicamentos)
+			aux += medicamento.getPrecio();
+			return aux;
+	
 	}
 	
 	

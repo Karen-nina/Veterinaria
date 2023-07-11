@@ -1,7 +1,5 @@
 package ar.edu.unlam.dominio;
 
-import java.util.Objects;
-
 public class Medicamento {
 
 	private Integer id;
@@ -30,22 +28,6 @@ public class Medicamento {
 	}
 	public void setPrecio(Double precio) {
 		this.precio = precio;
-	}
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Medicamento other = (Medicamento) obj;
-		return Objects.equals(id, other.id);
-	}
-	
+	}	
 	
 }

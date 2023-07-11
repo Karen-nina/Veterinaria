@@ -76,6 +76,11 @@ public class Duenio {
 		Duenio other = (Duenio) obj;
 		return Objects.equals(id, other.id);
 	}
+
+	public void ordenarMascotasPorApodo() {
+		TreeSet<Mascota> lista = new TreeSet<>(new OrdenPorApodo());
+		
+	}
 	
 	
 	
